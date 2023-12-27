@@ -1,0 +1,85 @@
+.IndiNoteScaffold {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  iframe {
+    width: 70vw;
+    height: 30vw;
+    margin-bottom: 10vh;
+
+    opacity: 0%;
+    animation: fadeIn 1.5s ease forwards 0.7s;
+  }
+  .questionSection {
+    height: 170vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .animation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      p {
+        margin: 1.2rem;
+        font-size: 1.7rem;
+      }
+      textarea {
+        font-family: "Song Myung", serif;
+        font-size: 1.5rem;
+        margin-bottom: 10vh;
+        padding: 3.5rem;
+        width: 80vw;
+        height: 30vh;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        border-radius: 2rem;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px;
+
+        resize: none;
+      }
+    }
+    .firstquestion {
+      opacity: 0%;
+      animation: fadeIn 1.5s ease forwards 1s;
+    }
+    .secondquestion {
+      opacity: 0%;
+      animation: fadeIn 1.5s ease forwards 1.2s;
+    }
+    .thirdquestion {
+      opacity: 0%;
+      animation: fadeIn 1.5s ease forwards 1.4s;
+    }
+
+    button {
+      font-family: "Song Myung", serif;
+      font-size: 1.5rem;
+      width: 20vw;
+      height: 7vh;
+      border: none;
+      border-radius: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px;
+
+      opacity: 0%;
+      animation: fadeIn 1.5s ease forwards 1.7s;
+      transition: box-shadow 0.7s;
+    }
+
+    button:hover {
+      cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 8px;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

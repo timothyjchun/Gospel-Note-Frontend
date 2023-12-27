@@ -1,0 +1,74 @@
+.navbarScaffold {
+  top: 0px;
+  width: 100vw;
+  height: 10vh;
+
+  margin-bottom: 5vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .navbar {
+    text-decoration: none;
+  }
+  #title {
+    font-size: 40px;
+    color: black;
+
+    opacity: 0%;
+    animation: fadeIn 1.5s ease forwards;
+
+    background: linear-gradient(to right, #d9d9d9, #d9d9d9),
+      linear-gradient(to right, rgb(0, 0, 0, 0.7), rgb(0, 0, 0, 0.7));
+    background-size: 100% 3px, 0 3px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.7s;
+  }
+  #title:hover {
+    box-shadow: rgb(0, 0, 0, 0.25);
+    background-size: 0 3px, 100% 3px;
+  }
+  .userInfo {
+    position: absolute;
+    right: 5vh;
+    display: flex;
+    flex-direction: row;
+
+    opacity: 0%;
+    animation: fadeIn 1.5s ease forwards 0.4s;
+    .logoutBtn {
+      font-family: "Song Myung", serif;
+      background-color: #d9d9d9;
+      border: none;
+    }
+    p {
+      margin: 5px;
+      color: black;
+      font-size: 25px;
+    }
+    #animate {
+      background: linear-gradient(to right, #d9d9d9, #d9d9d9),
+        linear-gradient(to right, rgb(0, 0, 0, 0.7), rgb(0, 0, 0, 0.7));
+      background-size: 100% 2.3px, 0 2.3px;
+      background-position: 100% 100%, 0 100%;
+      background-repeat: no-repeat;
+      transition: background-size 0.7s;
+    }
+
+    #animate:hover {
+      box-shadow: rgb(0, 0, 0, 0.25);
+      background-size: 0 2.3px, 100% 2.3px;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

@@ -1,0 +1,39 @@
+.DisplayNoteScaffold {
+  width: 70vw;
+  height: 15vh;
+  border-radius: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.49);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: box-shadow 0.7s;
+
+  margin: 3vh;
+
+  text-decoration: none;
+  color: black;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  p {
+    font-size: 2.2rem;
+  }
+  .sub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .main {
+      font-size: 2.2rem;
+    }
+    .sub {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+.DisplayNoteScaffold:hover {
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 3px 8px;
+}
