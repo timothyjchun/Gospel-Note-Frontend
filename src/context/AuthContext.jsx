@@ -8,7 +8,8 @@ import { useEffect } from "react";
 const AuthContext = createContext();
 export default AuthContext;
 
-export const baseURL = "http://127.0.0.1:8000";
+// export const baseURL = "http://127.0.0.1:8000";
+export const baseURL = "https://gospelnote.timothychun.com/gospel_note";
 
 export const AuthProvier = ({ children }) => {
   const nav = useNavigate();
@@ -19,25 +20,23 @@ export const AuthProvier = ({ children }) => {
   );
 
   // trying to trigger effect to check if user is coming back after some time
-  useEffect(() => {
-    if (authContext != null) {
-      const refreshToken = JSON.parse(authContext).refresh;
-      const refreshTokenExp = jwt_decode(refreshToken).exp;
-      const isTokenExpired = (unixTime) => {
-        const expTime = dayjs.unix(unixTime);
-        const now = dayjs();
-        return expTime.diff(now, "second") <= 2;
-      };
-      isTokenExpired(refreshTokenExp)
-        ? userLogout()
-        : refreshTokens(refreshToken);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (authContext != null) {
+  //     const refreshToken = JSON.parse(authContext).refresh;
+  //     const refreshTokenExp = jwt_decode(refreshToken).exp;
+  //     const isTokenExpired = (unixTime) => {
+  //       const expTime = dayjs.unix(unixTime);
+  //       const now = dayjs();
+  //       return expTime.diff(now, "second") <= 2;
+  //     };
+  //     isTokenExpired(refreshTokenExp)
+  //       ? userLogout()
+  //       : refreshTokens(refreshToken);
+  //   }
+  // }, []);
 
   // 자꾸 black list 된 refresh token이 사용돼서 에러가 난다... 추측하기로는 어쩌다가 (너무 연속적인 refresh token 발급으로) 새로 발급 받은 refresh token이 반영이 안되는것
-  // useEffect(() => {
-  //   values.authContext = authContext;
-  // }, [authContext]);
+  // useEffect(() => {}, [authContext]);
 
   // setting authentication tokens to state and localStorage
   const setAuthTokens = (authTokens) => {
