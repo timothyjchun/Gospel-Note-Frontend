@@ -19,21 +19,33 @@ export const AuthProvier = ({ children }) => {
       : null
   );
 
+  const isValidAuth = (authContext) => {
+    if (authContext) {
+      return JSON.parse(authContext).hasOwnProperty("access");
+    } else return false;
+  };
+
   // trying to trigger effect to check if user is coming back after some time
-  // useEffect(() => {
-  //   if (authContext != null) {
-  //     const refreshToken = JSON.parse(authContext).refresh;
-  //     const refreshTokenExp = jwt_decode(refreshToken).exp;
-  //     const isTokenExpired = (unixTime) => {
-  //       const expTime = dayjs.unix(unixTime);
-  //       const now = dayjs();
-  //       return expTime.diff(now, "second") <= 2;
-  //     };
-  //     isTokenExpired(refreshTokenExp)
-  //       ? userLogout()
-  //       : refreshTokens(refreshToken);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (typeof window != "undefined" && window.location.pathname === "/") {
+      if (authContext != null) {
+        if (isValidAuth(authContext)) {
+          const refreshToken = JSON.parse(authContext).refresh;
+          const refreshTokenExp = jwt_decode(refreshToken).exp;
+          const isTokenExpired = (unixTime) => {
+            const expTime = dayjs.unix(unixTime);
+            const now = dayjs();
+            return expTime.diff(now, "second") <= 2;
+          };
+          isTokenExpired(refreshTokenExp)
+            ? userLogout()
+            : refreshTokens(refreshToken);
+        }
+      } else {
+        userLogout();
+      }
+    }
+  }, [window.location.pathname]);
 
   // 자꾸 black list 된 refresh token이 사용돼서 에러가 난다... 추측하기로는 어쩌다가 (너무 연속적인 refresh token 발급으로) 새로 발급 받은 refresh token이 반영이 안되는것
   // useEffect(() => {}, [authContext]);
@@ -58,33 +70,28 @@ export const AuthProvier = ({ children }) => {
     }
   };
 
-  const getAccessToken = (username, password) => {
-    fetch(`${baseURL}/api/token/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+  const getAccessToken = async (username, password) => {
+    if (username === "" || password === "") {
+      alert("아이디 혹은 비밀번호가 제대로 입력되지 않았습니다");
+    } else {
+      const res = await fetch(`${baseURL}/api/token/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      if (res.status === 200) {
+        const data = await res.json();
         setAuthTokens(JSON.stringify(data));
         nav("/");
-      })
-      .catch((err) => {
+      } else if (res.status === 401) {
         alert("아이디 혹은 비밀번호가 틀립니다. 다시 시도하시기 바랍니다."); // 나중에 유저가 존재하는지 안하는지 등도 세분화해서 알려주자.
-      });
-
-    // if (response.status === 200) {
-    //   const data = await response.json();
-    //   setAuthTokens(JSON.stringify(data));
-    //   nav("/");
-    // } else {
-    //   alert("아이디 혹은 비밀번호가 틀립니다. 다시 시도하시기 바랍니다."); // 나중에 유저가 존재하는지 안하는지 등도 세분화해서 알려주자.
-    // }
+      }
+    }
   };
 
   const userLogin = (e) => {
@@ -148,6 +155,8 @@ export const AuthProvier = ({ children }) => {
         ? jwt_decode(JSON.parse(authContext).access).name
         : null,
     baseURL: baseURL,
+    isValidAuth: isValidAuth,
+    refreshTokens: refreshTokens,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

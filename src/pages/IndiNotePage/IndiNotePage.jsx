@@ -13,29 +13,34 @@ const IndiNotePage = () => {
   const [userNoteData, setUserNoteData] = useState({});
   const location = useLocation();
 
-  const { baseURL } = useContext(AuthContext);
+  const { baseURL, refreshTokens, authContext, isValidAuth } =
+    useContext(AuthContext);
 
-  // 파라미터 값에서 url 가져오기
-  // 나중에는 만약에 사용자가 적은게 있으면 알려주는 식으로 해야함...
+  // useEffect(() => {
+  //   const getUrl = async () => {
+  //     const searchParams = new URLSearchParams(location.search);
+
+  //   };
+  //   getUrl();
+  // }, []);
+
   useEffect(() => {
-    const getUrl = async () => {
+    const getUrlandIndivisualUserNote = async () => {
       const searchParams = new URLSearchParams(location.search);
+      if (isValidAuth(authContext)) {
+        refreshTokens(JSON.parse(authContext).refresh);
+      }
       if (searchParams.get("url")) {
         setUrl(searchParams.get("url"));
       } else {
         const response = await fetch(`${baseURL}/api/recent_gnote/`, {
           method: "GET",
         });
-        const data = await response.json();
-        setUrl(data.url);
+        if (response.status === 200) {
+          const data = await response.json();
+          setUrl(data.url);
+        }
       }
-    };
-    getUrl();
-  }, []);
-
-  useEffect(() => {
-    const getIndivisualUserNote = async () => {
-      const searchParams = new URLSearchParams(location.search);
       const uNID = searchParams.get("uNId");
       if (uNID) {
         const response = await api.get(
@@ -51,8 +56,9 @@ const IndiNotePage = () => {
         }
       }
     };
-    getIndivisualUserNote();
+    getUrlandIndivisualUserNote();
   }, []);
+
   const sendNote = async (e) => {
     e.preventDefault();
     const response = await api.post("/api/save_note/", {

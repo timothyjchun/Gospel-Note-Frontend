@@ -65,7 +65,6 @@ const useAxios = () => {
         //     return req;
         //   })
         //   .catch((err) => alert(err));
-
         const { data } = await axios.post(
           `${baseURL}/api/token/refresh/`,
           {
@@ -74,7 +73,7 @@ const useAxios = () => {
           {
             headers: { "Content-Type": "application/json" },
           }
-        ); // problem -> token is blacklisted | 어딘선가 다른 곳에서..
+        );
         setAuthTokens(JSON.stringify(data));
         req.headers["Authorization"] = `Bearer ${data.access}`;
         return req;

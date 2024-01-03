@@ -27,7 +27,6 @@ const PersonalPage = () => {
 
   const api = useAxios();
 
-  // Fetching User Note useEffect
   useEffect(() => {
     const getUserNotes = async () => {
       const response = await api.get(
@@ -39,20 +38,35 @@ const PersonalPage = () => {
       setUserNotes(data.results);
     };
     getUserNotes();
+    fetchProgressCalendar(year);
+    setYearOptions(restoreYearOptionsAndRemove(year));
+  }, [currentPageNum, year]);
 
-    // console.log(displayNotes.length);
-  }, [currentPageNum]);
+  // // Fetching User Note useEffect
+  // useEffect(() => {
+  //   const getUserNotes = async () => {
+  //     const response = await api.get(
+  //       `/api/get_usernote/?page=${currentPageNum}`
+  //     );
+  //     const data = await response.data;
+  //     setUserNoteNum(data.count);
+  //     setDisplayUserNoteNum(data.results.length);
+  //     setUserNotes(data.results);
+  //   };
+  //   getUserNotes();
+  //   // console.log(displayNotes.length);
+  // }, [currentPageNum]);
+
+  // useEffect(() => {
+  //   fetchProgressCalendar(year);
+  //   setYearOptions(restoreYearOptionsAndRemove(year));
+  // }, [year]);
 
   // Display User Notes When userNotes Change
   useEffect(() => {
     // console.log(userNotes);
     displayUserNotes();
   }, [userNotes]);
-
-  useEffect(() => {
-    fetchProgressCalendar(year);
-    setYearOptions(restoreYearOptionsAndRemove(year));
-  }, [year]);
 
   const yearChange = (year) => {
     setYear(year);
